@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { ActorList } from './ActorList';
 import MovieList from './MovieList';
 import { ClipLoader } from 'react-spinners';
-import { Fade, Card, CardContent } from '@material-ui/core';
+import { Fade, Card } from '@material-ui/core';
 
 const SearchCardStyle = styled(Card)`
     display: grid;
     grid-template-rows: 20% 80%;
     width: 500px;
     height: 600px;
-    background-color: rgb(250, 250, 242) !important;
+    background-color: var(--yellowish) !important;
     text-align: center;
+    padding: 15px;
     `;
 
 const StyledInput = styled.input`
     display: inline-block;
+    border: none;
     `;
 
 const StyledButton = styled.button`
@@ -24,7 +26,7 @@ const StyledButton = styled.button`
     display: inline-block;
 `;
 
-const Search = ({ result, image , input, controlinput, get , type, expand }) => {  
+const Search = ({ result, image , input, controlinput, get , type, openmovie , openactor }) => {  
     
 
     return (
@@ -38,7 +40,7 @@ const Search = ({ result, image , input, controlinput, get , type, expand }) => 
                     </div>
                     <div className = 'center'>
                         <ClipLoader loading = {result.spinner} />
-                         { type === 'actor' ? <ActorList result = {result} image = {image} /> : <MovieList result = {result} image = {image} expand = {expand} /> }                
+                         { type === 'actor' ? <ActorList result = {result} image = {image} openactor = {openactor} /> : <MovieList result = {result} image = {image} openmovie = {openmovie} /> }                
                     </div>
             </SearchCardStyle>
             </Fade>            

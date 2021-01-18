@@ -1,9 +1,7 @@
 import React, { useState , useEffect } from 'react';
 import Search from './Search';
-import Results from './MovieExpanded';
-import MovieList from './MovieList';
-import {ActorList} from './ActorList';
 import MovieExpanded from './MovieExpanded';
+import ActorExpanded from './ActorExpanded';
 import './styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,6 +12,7 @@ const App = () => {
     const [ actorResult , setActorResult ] = useState({ details: [],  render: false, spinner: false});
     const [ movieResult , setMovieResult ] = useState({ details: [], render: false, spinner: false});
     const [ expandedMovie , setExpandedMovie ] = useState({ details: {} , render: false });
+    const [ expandedActor , setExpandedActor ] = useState({ details: {}, render: false })
     const apiKey = "c75de37ef442de495cd2bc2459b6f965";
 
     const getPerson = async function() {
@@ -86,12 +85,40 @@ const App = () => {
       .catch(err => console.error(err));
 
       const { cast } = castList;
+
       details.cast = cast;
 
-      console.log(details)
-
       setExpandedMovie({details: details, render: true})
+      setExpandedActor({details: {} , render: false})
 
+    }
+
+    const openActor = async function(id){
+
+      const details = await fetch(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&language=en-US`)
+      .then(res => res.json())
+      .catch(err => console.error(err));
+
+      const credits = await fetch(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${apiKey}&language=en-US`)
+      .then(res => res.json())
+      .catch(err => console.error(err));
+
+      const { cast: movies } = credits;
+
+      movies.sort((a,b) => b.popularity - a.popularity);
+
+      details.movies = movies;
+
+      console.log(details);
+
+      setExpandedActor({details: details, render: true});
+      setExpandedMovie({details: {}, render: false})
+
+    }
+
+    const backToSearch = () => {
+      setExpandedActor(Object.assign({}, expandedActor, {render: false}))
+      setExpandedMovie(Object.assign({}, expandedMovie, {render: false}))
     }
 
     useEffect(() => {
@@ -101,7 +128,7 @@ const App = () => {
       },[]); 
       
       const searchBoxes = (
-        <div className = 'App'>
+        <div className = {`${ expandedActor.render === false && expandedMovie.render === false ? 'App' : 'no-display'}`}>
           <Search 
             result = {actorResult}
             image = {imageConfig}
@@ -109,6 +136,7 @@ const App = () => {
             controlinput = {setControlledInput}
             get = {getPerson}
             type = 'actor'
+            openactor = {openActor}
           
           />
           <p>or</p>
@@ -120,15 +148,19 @@ const App = () => {
             controlinput = {setControlledInput}
             get = {getMovie}
             type = 'movie'
-            expand = {openMovie}
+            openmovie = {openMovie}
             />
         </div>
       )
 
   return (
-    
-     [ expandedMovie.render ? <MovieExpanded details =  {expandedMovie.details} image = {imageConfig} /> : searchBoxes ]
-   
+  
+        <div>
+         {expandedMovie.render ? <MovieExpanded back = { () => backToSearch()} details = {expandedMovie.details} openactor = {openActor} openmovie = {openMovie} image = {imageConfig} /> : null}
+         {expandedActor.render ? <ActorExpanded back = {() => backToSearch()} details = {expandedActor.details} openactor = {openActor} openmovie = {openMovie} image = {imageConfig} /> : null}
+         { searchBoxes }
+         
+        </div>
   )
 }
 

@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import './styles.css';
 
 const ListItems = styled.div`    
-    overflow-y: scroll;    
+    overflow-y: auto;    
     `;
 
 const ListItem = styled(Card)`
@@ -16,29 +16,36 @@ font-size: 10px;
 margin: 0 20px 20px 20px;
 text-align: left;
 cursor: pointer;
+transition: all .2s !important;
+    
+    &:hover {
+        transform: translate(0px,-7px);
+    }
+
 `;
 
 const Image = styled.img`
 height: 100%;
 width: 100px;
+object-fit: cover;
 `;
 
-const ActorList = ({ result , image }) => {
+const ActorList = ({ result , image , openactor }) => {
 
     const RenderedActors = (x) => {
 
         const [ imageLoaded , setImageLoaded ] = useState(false);
 
-        const test =  x.knownfor.map(title => title.hasOwnProperty('original_name') ? <span key = {title.index}>{title.original_name}</span> : <span key = {title.index}>{title.original_title}</span>
+        const test =  x.knownfor.map(title => title.hasOwnProperty('original_name') ? <span key = {title.index}>{title.original_name} </span> : <span key = {title.index}>{title.original_title} &#9679; &nbsp;</span>
             );
             
         return (
-            <ListItem key = {x.id}>
+            <ListItem raised key = {x.id} onClick = {() => openactor(x.id)}>
                 <Image src = { image.base + image.size + x.image} alt='no image' className = {`smooth-image image-${imageLoaded ? 'visible' : 'hidden' }`} onLoad = {() => setImageLoaded(true)} />
                 <CardContent>
                     <h4>{x.name}</h4>
                     <p>{x.biography.substring(0,100)}...</p>
-                    <p>Known for: {test}</p>      
+                    <p><b>Known for:</b> {test}...</p>      
                 </CardContent>
             </ListItem>
         )
