@@ -12,7 +12,7 @@ const MovieList = ({ result , image , openmovie }) => {
 
         return (
              
-            <ListItem raised key = {x.id} onClick = {() => openmovie(x.id)}>                                
+            <ListItem key = {x.id} onClick = {() => openmovie(x.id)}>                                
                 <Image src = { image.base + image.size + x.poster_path} className = {`smooth-image image-${imageLoaded ? 'visible' : 'hidden' }`} onLoad = {() => setImageLoaded(true)} />
                 <CardContent>
                     <h4>{x.original_title}</h4><span>{x.release_date.substring(0,4)}</span>

@@ -1,6 +1,7 @@
 {
   "name": "search-actor",
   "version": "0.1.0",
+  "homepage": "http://rileyjhardy.com/actormoviesearch",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",

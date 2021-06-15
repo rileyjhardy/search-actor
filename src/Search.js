@@ -10,20 +10,28 @@ const SearchCardStyle = styled(Card)`
     grid-template-rows: 20% 80%;
     width: 500px;
     height: 600px;
-    background-color: var(--yellowish) !important;
+    background-color: var(--boxes) !important;
     text-align: center;
     padding: 15px;
+    border-radius: 0 !important;
     `;
 
 const StyledInput = styled.input`
     display: inline-block;
     border: none;
+    width: 70%;
+    
+    height: 35px;
+
     `;
 
 const StyledButton = styled.button`
-    background-color: #f5c419;
+    background-color: var(--accent);
+    color: white;
     border: none;
     display: inline-block;
+    width: 20%;
+    height: 35px;
 `;
 
 const Search = ({ result, image , input, controlinput, get , type, openmovie , openactor }) => {  

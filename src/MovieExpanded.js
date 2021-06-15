@@ -2,11 +2,11 @@ import React, { useState , useEffect } from 'react';
 import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Profile from './media/Profile.jpg';
 import { BeatLoader } from 'react-spinners';
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const Backdrop = styled.img`    
     width: 100%;
@@ -16,8 +16,7 @@ const Backdrop = styled.img`
     animation-duration: .5s;
 `;
 
-const Cast = styled(Card)`
-
+const Cast = styled.div`
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(300px,1fr));
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
@@ -26,6 +25,7 @@ const Cast = styled(Card)`
     animation-name: zoom;
     animation-duration: .3s;
     animation-delay: .25s;
+    background-color: var(--background) !important;
 `;
 
 const CastProfile = styled(Card)`
@@ -46,13 +46,14 @@ const CastProfile = styled(Card)`
 
 const Titles = styled(Card)`    
     color: black;
-    padding: 20px;
+    padding: 40px;
     font-family: Impact;
     animation-name: zoom;
     animation-duration: .3s;
     margin-bottom: 20px;
     margin-top: 20px;
-    border-radius: 0 !important;    
+    border-radius: 0 !important;
+        
 `;
 
 const Header = styled.h1`
@@ -65,15 +66,8 @@ font-family: Georgia;
 `;
 
 const CenteredElements = styled.div`
-    max-width: 1200px;
+    max-width: 1100px;
     margin: auto;
-`;
-
-const Search = styled.div`
-    position: fixed;
-    left: 20px;
-    top: 50%;
-    cursor: pointer;
 `;
 
 const SpinnerContainer = styled.div`
@@ -81,13 +75,6 @@ const SpinnerContainer = styled.div`
     justify-content: center;
     align-items: center;
     height: 500px;
-`;
-
-const SeeMore = styled.div`
-
-    width: 100px;
-    margin: 125px auto;
-    cursor: pointer;
 `;
 
 const RenderedActors = ({ item , openactor , image }) => {
@@ -135,15 +122,15 @@ const MovieExpanded = ({ back, details , openactor , image }) => {
                             <Header>{details.original_title} |</Header><span style = {{verticalAlign: '5px' , fontSize: '20px'}}>&nbsp;{details.release_date.substring(0,4)}</span>
                             
                             <h6>{details.tagline}</h6>
-                            <br />
+                            
                             <Overview>{details.overview}</Overview>
-                            <hr />
-                    </Titles>
-                
-                <Search onClick = {() => back()}>
-                    <ArrowBackIosIcon />
-                    <span>Search</span>
-                </Search>
+                            
+                    </Titles>       
+
+                <Fab onClick = {() => back()} color="primary" aria-label="add" className = 'back-arrow'>
+                    <ArrowBackIcon />
+                </Fab>
+
                 <div style = {{padding: "20px"}}>
                         <h2 >Cast</h2>
                         <hr />

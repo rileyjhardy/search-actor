@@ -13,10 +13,11 @@ const ListItem = styled(Card)`
 display: grid;
 grid-template-columns: 25% 75%;
 font-size: 10px;
-margin: 0 20px 20px 20px;
+margin: 20px 20px 20px 20px;
 text-align: left;
 cursor: pointer;
 transition: all .2s !important;
+border-radius: 0 !important;
     
     &:hover {
         transform: translate(0px,-7px);
@@ -26,7 +27,7 @@ transition: all .2s !important;
 
 const Image = styled.img`
 height: 100%;
-width: 100px;
+width: 100%;
 object-fit: cover;
 `;
 
@@ -40,7 +41,7 @@ const ActorList = ({ result , image , openactor }) => {
             );
             
         return (
-            <ListItem raised key = {x.id} onClick = {() => openactor(x.id)}>
+            <ListItem key = {x.id} onClick = {() => openactor(x.id)}>
                 <Image src = { image.base + image.size + x.image} alt='no image' className = {`smooth-image image-${imageLoaded ? 'visible' : 'hidden' }`} onLoad = {() => setImageLoaded(true)} />
                 <CardContent>
                     <h4>{x.name}</h4>
